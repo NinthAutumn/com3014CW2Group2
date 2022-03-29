@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { CreateUserDTO } from './dto/creat-user.dto';
 import { LoginDTO } from './dto/login.dto';
@@ -17,6 +26,9 @@ export class AppController {
     return this.appService.registerHandler(createUserDTO);
   }
 
-  // @Post('reset/request')
-  // async
+  @Patch('reset/password')
+  @UseGuards(AuthGuard('jwt'))
+  async resetPasswordHandler(@Req() req: any, @Body() body: any) {
+    return this.appService.resetPasswordHandler(req.user, body.password);
+  }
 }

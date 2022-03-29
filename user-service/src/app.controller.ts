@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { CreateUserDTO } from './dto/creat-user.dto';
@@ -18,9 +28,25 @@ export class AppController {
     return this.appService.createUser(createUserDTO);
   }
 
+  @Patch('user/password')
+  @UseGuards(AuthGuard('jwt'))
+  async updatePassword(@Req() req: any, @Body() body: any) {
+    return this.appService.changeUserPassword(req.user.id, body.password);
+  }
+
   @Get('self')
   @UseGuards(AuthGuard('jwt'))
   async fetchUserSelf(@Req() req: any) {
     return this.appService.findUserById(req.user.id);
+  }
+
+  @Get('credentials/:credential')
+  @UseGuards(AuthGuard('jwt'))
+  async fetchUserByCredential(
+    @Param('credential') credential: string,
+    @Req() req: any,
+  ) {
+    if (!req.user.service) throw new UnauthorizedException();
+    return this.appService.findUserByCredentials(credential);
   }
 }

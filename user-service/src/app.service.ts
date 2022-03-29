@@ -39,9 +39,17 @@ export class AppService {
     );
   }
 
+  async changeUserPassword(user_id: number, password: string) {
+    return this.slonik.maybeOne(
+      sql`update users set password = ${await this.encryptPassword(
+        password,
+      )} where id = ${user_id} returning * `,
+    );
+  }
+
   async loginHandler(loginDTO: LoginDTO) {
     const { credential, password } = loginDTO;
-    const user = await this.findUserByCredentials(credential);
+    const user = (await this.findUserByCredentials(credential)) as any;
     if (!user) throw new NotFoundError('User not found');
     if (await this.verifyPassword(password, user.password)) {
       delete user.password;

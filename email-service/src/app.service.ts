@@ -1,67 +1,36 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { InjectSlonik, Slonik, SlonikModule } from './slonik';
-import { compare, genSalt, hash } from 'bcryptjs';
-import { sql } from 'slonik';
-import { CreateUserDTO } from './dto/creat-user.dto';
-import { LoginDTO } from './dto/login.dto';
-import { NotFoundError } from 'rxjs';
+import * as sgMail from '@sendgrid/mail';
+
 import { config } from 'dotenv';
 config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 @Injectable()
 export class AppService {
-  constructor(@InjectSlonik() private readonly slonik: Slonik) {}
+  constructor() {}
 
-  async createUser(createUserDTO: CreateUserDTO) {
-    const { username, email, password } = createUserDTO;
-    const user = await this.slonik.maybeOne(sql`
-        insert into users(username,email,password)
-        values(${username},${email},${await this.encryptPassword(
-      password,
-    )}) returning * 
-      `);
-    delete user.password;
-    return user;
+  async sendVerifyEmail({ email, token }) {
+    return sgMail.send({
+      to: [email],
+      from: '',
+      subject: `Verify Your Email Address`,
+      html: `
+              <h1>Verify Your Email Address</h1>
+              <a href="${process.env.SITE_URL}/verify?token=${token}"> </a>
+              <p>${process.env.SITE_URL}/auth/verify?token=${token}</p>
+            `,
+    });
   }
 
-  async findUserById(user_id: number) {
-    const user = await this.slonik.one(sql`
-      select u.*
-      from users u
-      where u.id = ${user_id} 
-    `);
-    delete user.password;
-    return user;
-  }
-
-  async findUserByCredentials(credential: string) {
-    return this.slonik.maybeOne(
-      sql`select u.* from users u where u.email ilike ${credential} or u.username ilike ${credential}`,
-    );
-  }
-
-  async loginHandler(loginDTO: LoginDTO) {
-    const { credential, password } = loginDTO;
-    const user = await this.findUserByCredentials(credential);
-    if (!user) throw new NotFoundError('User not found');
-    if (await this.verifyPassword(password, user.password)) {
-      delete user.password;
-      return user;
-    } else {
-      throw new ForbiddenException(
-        'Wrong password combination with the username',
-      );
-    }
-  }
-
-  async encryptPassword(password: string) {
-    const salt = await genSalt(10);
-    return hash(password, salt);
-  }
-
-  async verifyPassword(
-    password: string,
-    hashed_password: string,
-  ): Promise<Boolean> {
-    return compare(password, hashed_password);
+  async sendResetPasswordEmail({ email, token }) {
+    return sgMail.send({
+      to: [email],
+      from: '',
+      subject: `Reset Your Password`,
+      html: `
+              <h1>Reset Your Password</h1>
+              <a href="${process.env.SITE_URL}/auth/reset?token=${token}"> </a>
+              <p>${process.env.SITE_URL}/auth/reset?token=${token}</p>
+            `,
+    });
   }
 }
