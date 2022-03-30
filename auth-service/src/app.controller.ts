@@ -31,4 +31,10 @@ export class AppController {
   async resetPasswordHandler(@Req() req: any, @Body() body: any) {
     return this.appService.resetPasswordHandler(req.user, body.password);
   }
+
+  @Patch('reset/request')
+  @UseGuards(AuthGuard('jwt'))
+  async resetRequestHandler(@Req() req: any, @Body() body: any) {
+    return this.appService.resetPasswordHandler(req.user, body.password);
+  }
 }

@@ -14,6 +14,49 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  user:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:3001"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  email:
+    build:
+      context: ./email-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:3002"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  interface:
+    build:
+      context: ./interface-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      email:
+        condition: service_healthy
+      user:
+        condition: service_healthy
+      auth:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   db:
     image: postgres:13
     volumes:
