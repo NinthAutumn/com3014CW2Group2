@@ -1,0 +1,44 @@
+.button {
+  outline: none;
+  cursor: pointer;
+  border-radius: 10rem;
+
+
+  border: none;
+  text-align:center;
+  &__icon{
+    margin-right:2rem;
+    display:inline-block;
+  }
+
+  &--small {
+    padding: 0.5rem 2.5rem;
+    font-size: 1.6rem;
+  }
+
+  &--normal {
+    padding: 0.5rem 2.5rem;
+    font-size: 2rem;
+  }
+  &--large {
+    padding: 1rem 3rem;
+    font-size: 2.4rem;
+  }
+  &--error{
+    color:var(--error-color);
+    background:var(--error-background);
+  }
+  &--success{
+    color:var(--success-color);
+    background:var(--error-background);
+  }
+
+  &--primary {
+    background: var(--primary-background);
+    color: var(--primary-color);
+  }
+  &--pill-color {
+    background: var(--pill-background);
+    color: var(--pill-color);
+  }
+}

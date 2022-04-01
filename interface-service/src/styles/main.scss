@@ -1,0 +1,115 @@
+@import './theme.scss';
+@import './components/button', './components/pill', './components/flex', './components/input';
+;
+
+body {
+  background: var(--background-color);
+  padding: 0;
+  margin: 0;
+  color: var(--text-color);
+}
+@media screen and (max-width:320px){
+  html {
+    font-size: 8px;
+  }
+  
+}
+@media screen and (max-width:750px){
+  html {
+    font-size: 9px;
+  }
+  
+}
+@media screen and (min-width:751px){
+ 
+  html {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width:1440px){
+  html {
+    // font-size: 11px;
+  }
+  
+}
+
+
+
+.container {
+  width: 100%;
+  max-width: 120rem;
+ 
+  padding: 1rem;
+  @media screen and (max-width:750px) {
+    padding: 0.5rem!important;
+  }
+  box-sizing: border-box;
+  margin: 0 auto;
+
+}
+
+.page {
+  width: 100%;
+}
+h1{
+  font-size:3rem;
+  margin:0;
+  margin-bottom:2rem;
+  margin-top:1rem;
+}
+h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+
+h3 {
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+p{
+  margin-top:0;
+}
+input,textarea,select{
+  background:var(--input-background-color);
+  color:var(--input-color);
+  border:var(--input-border);
+}
+:root {
+  color: var(--text-color);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "pnum";
+  font-variant-numeric: proportional-nums;
+  box-sizing: border-box;
+  // -webkit-appearance: none;
+  line-height: normal;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Noto Sans JP",
+    'Helvetica Neue',
+    'Segoe UI',
+    Helvetica,
+    Verdana,
+    Arial,
+    sans-serif;
+  font-weight: 400;
+}
+ul,
+li {
+  list-style: none;
+  padding: 0;
+}
+label{
+  font-size:1.4rem;
+}
+a{
+  text-decoration: none;
+  color:var(--text-color);
+}

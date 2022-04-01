@@ -31,13 +31,13 @@ export class AppController {
   @Patch('user/password')
   @UseGuards(AuthGuard('jwt'))
   async updatePassword(@Req() req: any, @Body() body: any) {
-    return this.appService.changeUserPassword(req.user.id, body.password);
+    return this.appService.changeUserPassword(req.user.user_id, body.password);
   }
 
   @Get('self')
   @UseGuards(AuthGuard('jwt'))
   async fetchUserSelf(@Req() req: any) {
-    return this.appService.findUserById(req.user.id);
+    return this.appService.findUserById(req.user.user_id);
   }
 
   @Get('credentials/:credential')

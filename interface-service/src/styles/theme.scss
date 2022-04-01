@@ -1,0 +1,89 @@
+.theme-green {
+
+  --white: white;
+  --lightest: #D8F3DC;
+  --lighter: #95D5B2;
+  --light: #74C69D;
+  --color: #52B788;
+  --dark: #40916C;
+  --darker: #2D6A4F;
+  --darkest: #1B4332;
+  --black: #081C15;
+  --error: #B75252;
+  --error-light: #F3D8D8;
+
+  &--dark {}
+
+  &--green {}
+
+  &--light {
+    --primary-background: var(--color);
+    --primary-color: var(--white);
+    --container-background: var(--white);
+    --text-color: var(--darker);
+    --success-background: var(--lightest);
+    --success-color: var(--color);
+    --error-background: var(--error-light);
+    --error-color: var(--error);
+    --content-background: var(--lighter);
+    --background-color: var(--lightest);
+    --box-shadow: 0 0.063em 0.313em 0 rgba(0, 0, 0, 0.07),
+      0 0.438em 1.063em 0 rgba(0, 0, 0, 0.1);
+    --input-background-color: var(--color);
+    --input-placeholder: var(--lightest);
+    --input-color: var(--white);
+    --pill-background: var(--lightest);
+    --pill-color: var(--darkest);
+    --table-header-background: var(--darker);
+    --table-header-color: var(--lightest);
+    --table-light-header-background: var(--lightest);
+    --table-light-header-color: var(--darkest);
+  }
+}
+
+.theme-azure {
+
+  --white: white;
+  --lightest: #9efabe;
+  --lighter: #95D5B2;
+  --light: #a6afff;
+  --color: #6573ff;
+  --dark: #374677;
+  --darker: #2a3761;
+  --darkest: #202945;
+  --sub-darkest: #293456;
+  --black: #081C15;
+  --error: #ff333d;
+  --error-light: rgb(255, 247, 247);
+
+
+  &--dark {
+    --primary-background: var(--color);
+    --primary-color: var(--white);
+    --container-background: var(--sub-darkest);
+    --text-color: var(--white);
+    --success-background: var(--light);
+    --success-color: var(--color);
+    --error-background: var(--pill-background);
+    --error-color: var(--error);
+    --content-background: var(--light);
+    --background-color: var(--darkest);
+    --box-shadow: 0 0.063em 0.313em 0 rgba(0, 0, 0, 0.07),
+      0 0.438em 1.063em 0 rgba(0, 0, 0, 0.1);
+    --input-background-color: var(--darkest);
+    --input-placeholder: var(--color);
+    --input-color: var(--white);
+    --input-border: var(--light);
+    --pill-background: var(--black);
+    --pill-color: var(--light);
+    --table-header-background: var(--dark);
+    --table-header-color: var(--white);
+    --table-light-header-background: var(--darkest);
+    --table-light-header-color: var(--light);
+    --link-background: var(--dark);
+    --link-hover-color: var(--light);
+    --table-unselected: var(--black);
+  }
+}
+
+.theme-tan {}
