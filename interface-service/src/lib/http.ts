@@ -1,7 +1,6 @@
 import { getContext } from 'svelte/internal';
 // import {getConte}
 import Cookie from 'js-cookie';
-import { API_ROUTE } from '$lib/env';
 
 // let clientClient, serverClient;
 // let instance = axios.create({
@@ -33,7 +32,7 @@ function fetchHandler(f, access_token?) {
 	}
 	return async function (route, method?, data?) {
 		return (
-			await f(`${API_ROUTE}${route}`, {
+			await f(`http://0.0.0.0:8080/api${route}`, {
 				method: method || 'GET',
 				...(() => {
 					if (data) {

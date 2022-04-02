@@ -33,17 +33,17 @@ const config = {
 		vite: {
 			server: {
 				proxy: {
-					'/auth': {
+					'/api/auth': {
 						target: 'http://0.0.0.0:3000',
 						changeOrigin: true,
 						secure: false,
-						rewrite: (path) => path.replace(/^\/auth/, '')
+						rewrite: (path) => path.replace(/^\/api\/auth/, '')
 					},
-					'/users': {
+					'/api/users': {
 						target: 'http://0.0.0.0:3001',
 						changeOrigin: true,
 						secure: false,
-						rewrite: (path) => path.replace(/^\/users/, '')
+						rewrite: (path) => path.replace(/^\/api\/users/, '')
 					}
 				}
 			}

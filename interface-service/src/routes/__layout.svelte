@@ -2,11 +2,10 @@
 	import '../app.css';
 </script>
 
-<Header />
-
 <main>
 	<slot />
 </main>
 
-<style>
+<style lang="scss" global>
+	@import './src/styles/main.scss';
 </style>

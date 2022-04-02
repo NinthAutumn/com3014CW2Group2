@@ -86,4 +86,31 @@
   }
 }
 
-.theme-tan {}
+.theme-default{
+  --primary:#4379FF;
+  --light-primary:#F7FAFC;
+  --primary-back:#DAE8FF;
+  --secondary: #092540;
+  --light-secondary:#3c4257;
+  --error:#C52D2D;
+  --success:#3ECF8E;
+  --very-small-box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+  rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+  rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+  rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  --small-box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  --box-shadow:0 0 0 1px rgba(136, 152, 170, .1), 0 15px 35px 0 rgba(49, 49, 93, .1), 0 5px 15px 0 rgba(0, 0, 0, .08);
+  --error-text-color:var(--error);
+  --success-text-color:var(--success);
+  --link-text-color:var(--primary);
+  --text-color:var(--secondary);
+  --background-color:var(--light-primary);
+  --label-text-color:var(--light-secondary);
+  --emphasized-text-color:var(--primary);
+  --button-color:white;
+  --container-background-color:white;
+  --text-background-color:white;
+}

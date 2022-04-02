@@ -1,44 +1,98 @@
 .button {
-  outline: none;
-  cursor: pointer;
-  border-radius: 10rem;
-
-
-  border: none;
-  text-align:center;
-  &__icon{
-    margin-right:2rem;
-    display:inline-block;
+  display: grid;
+  place-content: center;
+  font-weight: bold;
+  white-space: nowrap;
+  cursor:pointer;
+  user-select: none;
+  &--back{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    height: 4rem;
+    width: 4rem;
+    // margin-bottom: 1rem;
+    background: white;
+    border-radius: 10rem;
+    margin-top:1rem;
+    color: var(--primary);
   }
-
-  &--small {
-    padding: 0.5rem 2.5rem;
+  &--close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.6rem;
-  }
-
-  &--normal {
-    padding: 0.5rem 2.5rem;
-    font-size: 2rem;
-  }
-  &--large {
-    padding: 1rem 3rem;
-    font-size: 2.4rem;
-  }
-  &--error{
-    color:var(--error-color);
-    background:var(--error-background);
-  }
-  &--success{
-    color:var(--success-color);
-    background:var(--error-background);
+    height: 4.5rem;
+    width: 4.5rem;
+    // margin-bottom: 1rem;
+    background: white;
+    border-radius: 10rem;
+    margin-top:1rem;
+    color: var(--error);
   }
 
   &--primary {
-    background: var(--primary-background);
-    color: var(--primary-color);
+    background: var(--primary);
+    color: white;
+
+    &--light {
+      background: #DAE8FF;
+      color: var(--primary);
+    }
   }
-  &--pill-color {
-    background: var(--pill-background);
-    color: var(--pill-color);
+
+  &__icon {
+    margin-right: 1rem;
+  }
+
+  &--secondary {
+    background: var(--secondary);
+    color: white;
+  }
+
+  &--stripe {
+    background: #5469d4;
+    color: white;
+  }
+
+  &--green {
+    background: var(--success);
+    color: white;
+  }
+
+  &--very-round {
+    border-radius: 100px;
+  }
+
+  &--round {
+    border-radius: 5px;
+  }
+
+  &--normal {
+    height:5rem;
+    padding: 0 2.5rem;
+    font-size: 1.6rem;
+    // width: 100px;
+  }
+
+  &--shadow {
+
+    
+  }
+
+  &--small {
+    height: 3rem;
+    padding: 0 2rem;
+    font-size: 1.4rem;
+    white-space: nowrap;
+    // width: 100px;
+  }
+
+  &--big {
+    height: 4rem;
+    padding: 0 3rem;
+    font-size: 1.8rem;
+    // width: 100px;
   }
 }
