@@ -1,5 +1,6 @@
 <script>
 	import { session } from '$app/stores';
+	import HeaderNav from '$lib/components/Layout/HeaderNav.svelte';
 	import AuthStore from '$lib/stores/auth';
 	import { setContext } from 'svelte';
 
@@ -8,6 +9,7 @@
 
 <main>
 	<slot />
+	<HeaderNav />
 </main>
 
 <style lang="scss" global>

@@ -64,6 +64,7 @@
 			<input
 				placeholder="Username・Email"
 				type="text"
+				required
 				class="input input--normal input--white"
 				bind:value={form.credential}
 			/>
@@ -71,22 +72,17 @@
 			<label for="username">Password</label>
 			<input
 				type="password"
+				required
 				placeholder="*********"
 				class="input input--normal input--white"
 				bind:value={form.password}
 			/>
-
-			<div class="success success--center">
-				{verified}
-			</div>
-
 			<div class="error error--center">
 				{error}
 			</div>
-
 			<a style="margin:2rem 0;" href="/auth/forgotten">Forgotten Your Password</a>
 			<button
-				type="button"
+				type="submit"
 				style="width:100%;"
 				class="button button--normal button--primary button--very-round">Login</button
 			>
