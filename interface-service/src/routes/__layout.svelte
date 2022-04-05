@@ -1,5 +1,9 @@
 <script>
-	import '../app.css';
+	import { session } from '$app/stores';
+	import AuthStore from '$lib/stores/auth';
+	import { setContext } from 'svelte';
+
+	setContext('auth', new AuthStore(session));
 </script>
 
 <main>

@@ -11,18 +11,36 @@
 	import { getContext, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	let form = {
-		usernameOrEmail: '',
-		password: ''
+		email: '',
+		password: '',
+		confirm_password: '',
+		username: ''
 	};
-	let error = '';
+	let error = '',
+		username_taken = false,
+		email_taken = false;
 	export let verified = '';
-	const auth = getContext('store');
+	const auth = getContext('auth');
+	$: checkEmailTaken(form.email);
+	$: checkUsernameTaken(form.username);
+
+	async function checkEmailTaken(email) {
+		if (!email) return;
+		const { taken } = await http(fetch)(`/users/user/email/${email}/taken`);
+		email_taken = taken;
+	}
+	async function checkUsernameTaken(username) {
+		if (!username) return;
+
+		const { taken } = await http(fetch)(`/users/user/username/${username}/taken`);
+		username_taken = taken;
+	}
 	async function submitHandler(e) {
 		e.preventDefault();
-		if (form.usernameOrEmail == '' || form.password == '') {
-			error = 'Please fill in all the required fields!';
+		if (form.confirm_password != form.password) {
+			return (error = 'Confirm Password is different from your password.');
 		}
-		let res = await auth.loginUser(form);
+		let res = await auth.registerUser(form);
 		if (res?.error) {
 			error = res.error;
 			return;
@@ -50,16 +68,25 @@
 				class="input input--normal input--white"
 				bind:value={form.username}
 				style="margin-bottom:2rem;"
+				required
 			/>
+
+			{#if username_taken}
+				<div class="error">This Username is Already Taken!</div>
+			{/if}
 
 			<label for="username">Email</label>
 			<input
 				placeholder="Email"
 				type="text"
 				class="input input--normal input--white"
-				bind:value={form.Email}
+				bind:value={form.email}
+				required
 				style="margin-bottom:2rem;"
 			/>
+			{#if email_taken}
+				<div class="error">This Email is Already Taken!</div>
+			{/if}
 
 			<label for="username">Password</label>
 			<input
@@ -67,7 +94,9 @@
 				placeholder="*********"
 				class="input input--normal input--white"
 				bind:value={form.password}
+				required
 				style="margin-bottom:2rem;"
+				minlength="6"
 			/>
 			<label for="username">Confirm Password</label>
 			<input
@@ -76,6 +105,8 @@
 				class="input input--normal input--white"
 				bind:value={form.confirm_password}
 				style="margin-bottom:2rem;"
+				required
+				minlength="6"
 			/>
 
 			<div class="error error--center">
@@ -83,7 +114,7 @@
 			</div>
 
 			<button
-				type="button"
+				type="submit"
 				style="width:100%;"
 				class="button button--normal button--secondary button--very-round">Register</button
 			>

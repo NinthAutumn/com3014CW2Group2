@@ -28,6 +28,15 @@ export class AppController {
     return this.appService.createUser(createUserDTO);
   }
 
+  @Get('/user/email/:email/taken')
+  async isUserEmailTaken(@Param('email') email: string) {
+    return this.appService.isEmailTaken(email);
+  }
+  @Get('/user/username/:username/taken')
+  async isUserUsernameTaken(@Param('username') username: string) {
+    return this.appService.isUsernameTaken(username);
+  }
+
   @Patch('user/password')
   @UseGuards(AuthGuard('jwt'))
   async updatePassword(@Req() req: any, @Body() body: any) {

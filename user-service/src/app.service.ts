@@ -23,6 +23,21 @@ export class AppService {
     return user;
   }
 
+  async isUsernameTaken(username: string) {
+    return {
+      taken: !!(await this.slonik.maybeOne(
+        sql`select * from users where username ilike ${username}`,
+      )),
+    };
+  }
+  async isEmailTaken(email: string) {
+    return {
+      taken: !!(await this.slonik.maybeOne(
+        sql`select * from users where email ilike ${email}`,
+      )),
+    };
+  }
+
   async findUserById(user_id: number) {
     const user = await this.slonik.one(sql`
       select u.*
