@@ -14,6 +14,11 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get('/')
+  async health() {
+    return true;
+  }
+
   @Post('send/auth/verify')
   @UseGuards(AuthGuard('jwt'))
   async fetchUserByCredential(@Req() req: any, @Body() body: any) {

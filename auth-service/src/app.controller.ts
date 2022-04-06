@@ -21,6 +21,11 @@ export class AppController {
     return this.appService.logIn(loginDTO);
   }
 
+  @Get('/')
+  async health() {
+    return true;
+  }
+
   @Post('register')
   async registerHandler(@Body() createUserDTO: CreateUserDTO) {
     return this.appService.registerHandler(createUserDTO);

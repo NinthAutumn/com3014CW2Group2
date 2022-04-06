@@ -31,6 +31,9 @@ const config = {
 			allowed: ['PATCH', 'DELETE']
 		},
 		vite: {
+			ssr: {
+				noExternal: ['@fortawesome/free-solid-svg-icons']
+			},
 			server: {
 				proxy: {
 					'/api/auth': {
