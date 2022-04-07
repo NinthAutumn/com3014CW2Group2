@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
     before_action :authorized
 
     # Ask users to logged in to access the page
-    def authorised
+    def authorized
         render json: {message: 'Please log in'}, status: :unauthorized unless logged_in?
     end
 
@@ -15,7 +15,8 @@ class ApplicationController < ActionController::API
     # Decoded token method if the method is called with a token as parameter
     # The method decodes the token to find the user_id and checks if that user exists
     def decoded_token(token)
-        payload = JWT.decode(token, ENV['USER_SECRET_KEY'], true, algorithm: 'HS256')
+        # payload = JWT.decode(token, 'asdf', true, algorithm: 'HS256')
+        payload = JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
         puts payload[0]['user_id']
         if payload
             @user = User.find_by(id: payload[0]['user_id'])
@@ -25,9 +26,11 @@ class ApplicationController < ActionController::API
     # Decoded token method if the method is called without a token as parameter
     def decoded_token
         if auth_header
-            token = auth_header.split(' ')[1]
+            # token = auth_header.split(' ')[1] #doesnt work right 
+            token = auth_header
             begin   
-                return JWT.decode(token, ENV['USER_SECRET_KEY'], true, algorithm: 'HS256')
+                # return JWT.decode(token, 'asdf', true, algorithm: 'HS256')
+                return JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
             rescue JWT::DecodeError
                 nil
             end
@@ -38,7 +41,7 @@ class ApplicationController < ActionController::API
     def logged_in_user
         if decoded_token
             user_id = decoded_token[0]['user_id']
-            @user = User.find_by(id: user_id) # comment this line out to test if jwt passes
+            #@user = User.find_by(id: user_id) # comment this line out to test if jwt passes
             # test line to see if a user would gain access
             @user = 1 
         end

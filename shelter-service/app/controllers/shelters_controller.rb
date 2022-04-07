@@ -1,10 +1,9 @@
 class SheltersController < ApplicationController
-  before_action :set_shelter, only: [:show, :update, :destroy]
+  # before_action :set_shelter, only: [:show, :update, :destroy]
 
   # GET /shelters
   def index
     @shelters = Shelter.all
-
     render json: @shelters
   end
 
