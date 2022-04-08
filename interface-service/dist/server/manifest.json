@@ -1,0 +1,90 @@
+{
+  ".svelte-kit/build/index.js": {
+    "file": "index.js",
+    "src": ".svelte-kit/build/index.js",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js"
+    ],
+    "dynamicImports": [
+      "src/hooks.js"
+    ]
+  },
+  "src/routes/__layout.svelte": {
+    "file": "entries/pages/__layout.svelte.js",
+    "src": "src/routes/__layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js",
+      "_http-5f19d396.js"
+    ],
+    "css": [
+      "assets/entries/pages/__layout.svelte-1b57e130.css"
+    ]
+  },
+  ".svelte-kit/runtime/components/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "src": ".svelte-kit/runtime/components/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js"
+    ]
+  },
+  "src/routes/index.svelte": {
+    "file": "entries/pages/index.svelte.js",
+    "src": "src/routes/index.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js"
+    ]
+  },
+  "src/routes/auth/forgotten.svelte": {
+    "file": "entries/pages/auth/forgotten.svelte.js",
+    "src": "src/routes/auth/forgotten.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js"
+    ],
+    "css": [
+      "assets/entries/pages/auth/forgotten.svelte-65159b17.css"
+    ]
+  },
+  "src/routes/auth/register.svelte": {
+    "file": "entries/pages/auth/register.svelte.js",
+    "src": "src/routes/auth/register.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js",
+      "_http-5f19d396.js"
+    ],
+    "css": [
+      "assets/entries/pages/auth/register.svelte-29f63b85.css"
+    ]
+  },
+  "src/routes/auth/login.svelte": {
+    "file": "entries/pages/auth/login.svelte.js",
+    "src": "src/routes/auth/login.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-28a5b476.js",
+      "_http-5f19d396.js"
+    ],
+    "css": [
+      "assets/entries/pages/auth/login.svelte-e1d65e3b.css"
+    ]
+  },
+  "_index-28a5b476.js": {
+    "file": "chunks/index-28a5b476.js"
+  },
+  "_http-5f19d396.js": {
+    "file": "chunks/http-5f19d396.js"
+  },
+  "src/hooks.js": {
+    "file": "chunks/hooks-9a9868c4.js",
+    "src": "src/hooks.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_http-5f19d396.js"
+    ]
+  }
+}

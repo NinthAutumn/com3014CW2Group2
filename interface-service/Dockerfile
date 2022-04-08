@@ -9,6 +9,7 @@ RUN yarn
 
 # VITE_API_ROUTE=https://api.honoku.com
 ENV PORT=8080
+ENV VITE_HOST_DOMAIN=http://localhost
 COPY . /usr/src/client
 
 RUN yarn build

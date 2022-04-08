@@ -32,7 +32,7 @@ function fetchHandler(f, access_token?) {
 	}
 	return async function (route, method?, data?) {
 		return (
-			await f(`http://0.0.0.0:8080/api${route}`, {
+			await f(`/api${route}`, {
 				method: method || 'GET',
 				...(() => {
 					if (data) {
@@ -42,7 +42,7 @@ function fetchHandler(f, access_token?) {
 				})(),
 				headers: { ...headers }
 			})
-		).json();
+		)?.json();
 	};
 }
 export const http = fetchHandler;

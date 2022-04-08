@@ -34,22 +34,7 @@ const config = {
 			ssr: {
 				noExternal: ['@fortawesome/free-solid-svg-icons']
 			},
-			server: {
-				proxy: {
-					'/api/auth': {
-						target: 'http://0.0.0.0:3000',
-						changeOrigin: true,
-						secure: false,
-						rewrite: (path) => path.replace(/^\/api\/auth/, '')
-					},
-					'/api/users': {
-						target: 'http://0.0.0.0:3001',
-						changeOrigin: true,
-						secure: false,
-						rewrite: (path) => path.replace(/^\/api\/users/, '')
-					}
-				}
-			}
+			server: {}
 		}
 	}
 };

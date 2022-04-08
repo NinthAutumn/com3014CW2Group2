@@ -9,6 +9,7 @@ config();
 export class AppService {
   userService: AxiosInstance = null;
   emailService: AxiosInstance = null;
+  
   constructor(private readonly jwtService: JwtService) {
     this.userService = axios.create({
       baseURL: process.env.USER_SERVICE_URL,

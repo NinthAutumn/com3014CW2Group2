@@ -43,9 +43,9 @@ services:
     build:
       context: ./interface-service
       dockerfile: Dockerfile
-    # ports:
-    #   - "8080:8080"
-    network_mode: "host"
+    ports:
+      - "8080:8080"
+    # network_mode: "host"
     depends_on:
       email:
         condition: service_healthy
@@ -73,7 +73,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+  nginx-proxy:
+    container_name: nginx-proxy
+    build:
+      context: ./nginx
+    volumes:
+      - /etc/nginx/vhost.d
+      - /etc/acme.sh
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - '80:80'
+    restart: unless-stopped
 volumes:
   postgresql-data:
     driver: local
