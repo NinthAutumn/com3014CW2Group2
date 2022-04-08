@@ -4,32 +4,23 @@ class ApplicationController < ActionController::API
 
     # Ask users to logged in to access the page
     def authorized
-        render json: {message: 'Please log in'}, status: :unauthorized unless logged_in?
+        render json: {message: 'Please log in'}, status: :unauthorized unless user_logged_in
     end
 
     # Checks the header for Authorization
-    def auth_header
-        request.headers['Authorization'] 
-    end
-
-    # Decoded token method if the method is called with a token as parameter
-    # The method decodes the token to find the user_id and checks if that user exists
-    def decoded_token(token)
-        # payload = JWT.decode(token, 'asdf', true, algorithm: 'HS256')
-        payload = JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
-        puts payload[0]['user_id']
-        if payload
-            @user = User.find_by(id: payload[0]['user_id'])
-        end
+    def get_auth_header
+        return request.headers['Authorization'] 
     end
 
     # Decoded token method if the method is called without a token as parameter
-    def decoded_token
-        if auth_header
-            # token = auth_header.split(' ')[1] #doesnt work right 
-            token = auth_header
+    def get_decoded_token
+        headers = get_auth_header
+        if headers.present?
+            # Authorization would be in the form {Bearer asd.21x.aq24}
+            # So spliting it and saving the second value as the token
+            token = headers.split(' ')[1]
             begin   
-                # return JWT.decode(token, 'asdf', true, algorithm: 'HS256')
+                # Returns the decoded token
                 return JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
             rescue JWT::DecodeError
                 nil
@@ -37,18 +28,13 @@ class ApplicationController < ActionController::API
         end
     end
 
-    # 
-    def logged_in_user
-        if decoded_token
-            user_id = decoded_token[0]['user_id']
-            #@user = User.find_by(id: user_id) # comment this line out to test if jwt passes
-            # test line to see if a user would gain access
-            @user = 1 
+    # Finds the user_id from the decoded token and saves it as current_user_id global variable
+    def user_logged_in
+        # Gets the decoded token into payload variable
+        payload = get_decoded_token
+        if payload.present?
+            # Saves the user_id in the payload as the current_user_id
+            @current_user_id = payload[0]['user_id']
         end
-    end
-
-    # Converts the method logged_in_user as a boolean
-    def logged_in?##
-        !! logged_in_user
     end
 end

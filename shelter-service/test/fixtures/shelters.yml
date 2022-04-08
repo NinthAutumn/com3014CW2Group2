@@ -1,15 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-  description: MyText
-  email: MyString
-  phone_number: MyString
+valid_shelter:
+  name: Shelter1
+  description: This is Shelter1.
+  email: shelter1@gmail.com
+  phone_number: 0123456789
   address_id: 1
 
-two:
-  name: MyString
-  description: MyText
-  email: MyString
+invalid_shelter:
+  name: Shelter2
+  description: This is Shelter2 
+  email: shelter2gmailcom
   phone_number: MyString
-  address_id: 1
+  address_id: 2
