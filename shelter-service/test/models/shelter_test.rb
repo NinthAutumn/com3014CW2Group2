@@ -11,7 +11,7 @@ class ShelterTest < ActiveSupport::TestCase
     assert shelter.errors[:description].any?
     assert shelter.errors[:email].any?
     assert shelter.errors[:phone_number].any?
-    assert shelter.errors[:address_id].any?
+    assert shelter.errors[:address].any?
   end
 
   test 'Shelter should be valid' do

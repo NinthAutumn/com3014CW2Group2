@@ -25,16 +25,22 @@ class SheltersController < ApplicationController
 
   # PATCH/PUT /shelters/1
   def update
-    if @shelter.update(shelter_params)
-      render json: @shelter
-    else
-      render json: @shelter.errors, status: :unprocessable_entity
+    @shelter = Shelter.find(params[:id])
+    if @shelter.present?
+      if @shelter.update(shelter_params)
+        render json: @shelter
+      else
+        render json: @shelter.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /shelters/1
   def destroy
-    @shelter.destroy
+    @shelter = Shelter.find(params[:id])
+    if @shelter.present?
+      @shelter.destroy
+    end
   end
 
   private
@@ -45,6 +51,6 @@ class SheltersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shelter_params
-      params.require(:shelter).permit(:name, :description, :email, :phone_number, :address_id)
+      params.require(:shelter).permit(:name, :description, :email, :phone_number, :address)
     end
 end

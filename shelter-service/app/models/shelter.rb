@@ -1,6 +1,6 @@
 class Shelter < ApplicationRecord
     # Presence validation for all Shelter attributes
-    validates :name, :description, :email, :phone_number, :address_id, presence: true
+    validates :name, :description, :email, :phone_number, :address, presence: true
     # Length validation for both name, email, description
     validates :name, :email, length: { maximum: 64 }
     validates :description, length: { maximum: 512 }

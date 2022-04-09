@@ -3,11 +3,11 @@ valid_shelter:
   description: This is Shelter1.
   email: shelter1@gmail.com
   phone_number: 0123456789
-  address_id: 1
+  address: Shelter1 Address
 
 invalid_shelter:
   name: Shelter2
   description: This is Shelter2 
   email: shelter2gmailcom
   phone_number: MyString
-  address_id: 2
+  address: Shelter2 Address
