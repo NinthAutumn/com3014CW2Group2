@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  age: 1
+  troubling_history: false
+  animal_type: MyString
+  animal_category: MyString
+  male_only: false
+  female_only: false
+  inspection_required: false
+  shelter_id: 1
+
+two:
+  name: MyString
+  description: MyText
+  age: 1
+  troubling_history: false
+  animal_type: MyString
+  animal_category: MyString
+  male_only: false
+  female_only: false
+  inspection_required: false
+  shelter_id: 1
