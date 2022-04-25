@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
     # Authorize every request
     before_action :authorize
 
-    def authorised
+    def authorized
         render json: {message 'Please log in'}, status: :unauthorized unless logged_in?
     end
 
@@ -14,7 +14,8 @@ class ApplicationController < ActionController::API
     
     # decode called if method is called with token as the parameter - method decodes token to find the user_id and checks if user exists
     def decode_token(token)
-        payload = JWT.decode(token, ENV['USER_SECRET_KEY'], true, algorithm: 'HS256')
+        # payload = JWT.decode(token, asdf, true, algorithm: 'HS256')
+        payload = JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
         if payload
             @user = User.find_by(id: payload[0]['user_id'])
         end
@@ -23,9 +24,11 @@ class ApplicationController < ActionController::API
     # decode called if method is called without token
     def decoded_token
         if auth_header
-          token = auth_header.split(' ')[1]
+        #   token = auth_header.split(' ')[1] # need to change
+        token = auth_header
           begin
-            return JWT.decode(token, ENV['USER_SECRET_KEY'], true, algorithm: 'HS256')
+            # payload = JWT.decode(token, asdf, true, algorithm: 'HS256')
+            payload = JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: 'HS256')
           rescue JWT::DecodeError
             nil
           end
@@ -36,6 +39,7 @@ class ApplicationController < ActionController::API
     def logged_in_user
         if decoded_token
             user_id = decoded_token[0]['user_id']
+            # comment out following line when testing if JWT passes
             @user = User.find_by(id: user_id)
             @user = 1
         end
