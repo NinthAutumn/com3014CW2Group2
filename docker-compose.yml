@@ -58,6 +58,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  shelter:
+    build:
+      context: ./shelter-service
+      dockerfile: Dockerfile
+    # command: bundle exec bin/rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/shelter-service
+    ports:
+      - "3006:3006"
+    depends_on:
+      - db
   nginx-proxy:
     container_name: nginx-proxy
     build:
