@@ -12,6 +12,5 @@ COPY . /usr/src/user
 # ENV CLIENT_URL=
 # ENV SENDGRID_API_KEY=S
 RUN yarn build
-EXPOSE 3001
 
 CMD ["yarn", "start:prod"]
