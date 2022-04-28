@@ -43,6 +43,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  matching:
+    build:
+      context: ./matching-service
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://matching:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   db:
     image: postgres:13
     volumes:
