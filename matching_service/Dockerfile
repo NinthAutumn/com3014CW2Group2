@@ -1,17 +1,17 @@
 FROM node:14
-RUN mkdir -p /usr/src/user
-WORKDIR /usr/src/user
+RUN mkdir -p /usr/src/matching
+WORKDIR /usr/src/matching
 # Install app dependencies
-COPY package.json /usr/src/user/
-COPY yarn.lock /usr/src/user/
+COPY package.json /usr/src/matching/
+COPY yarn.lock /usr/src/matching/
 # RUN npm install -g yarn
 RUN yarn
 
-COPY . /usr/src/user
+COPY . /usr/src/matching
 # ENV PG_CONNECTION_STRING=
 # ENV CLIENT_URL=
 # ENV SENDGRID_API_KEY=S
 RUN yarn build
-EXPOSE 3001
+EXPOSE 3007
 
 CMD ["yarn", "start:prod"]
