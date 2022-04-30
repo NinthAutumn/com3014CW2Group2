@@ -4,13 +4,11 @@ services:
     build:
       context: ./auth-service
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:3000"]
+      test: ["CMD", "curl", "-f", "http://auth:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -18,13 +16,11 @@ services:
     build:
       context: ./user-service
       dockerfile: Dockerfile
-    ports:
-      - "3001:3001"
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:3001"]
+      test: ["CMD", "curl", "-f", "http://user:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,10 +28,8 @@ services:
     build:
       context: ./email-service
       dockerfile: Dockerfile
-    ports:
-      - "3002:3002"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:3002"]
+      test: ["CMD", "curl", "-f", "http://email:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -43,18 +37,21 @@ services:
     build:
       context: ./interface-service
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
     # network_mode: "host"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://interface:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  matching:
+    build:
+      context: ./matching-service
+      dockerfile: Dockerfile
     depends_on:
-      email:
-        condition: service_healthy
-      user:
-        condition: service_healthy
-      auth:
+      db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080"]
+      test: ["CMD", "curl", "-f", "http://matching:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -73,6 +70,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  shelter:
+    build:
+      context: ./shelter-service
+      dockerfile: Dockerfile
+    # command: bundle exec bin/rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/shelter-service
+    ports:
+      - "3006:3006"
+    depends_on:
+      - db
   nginx-proxy:
     container_name: nginx-proxy
     build:
@@ -84,6 +92,15 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
       - '80:80'
+    depends_on:
+      email:
+        condition: service_healthy
+      user:
+        condition: service_healthy
+      auth:
+        condition: service_healthy
+      interface:
+        condition: service_healthy
     restart: unless-stopped
 volumes:
   postgresql-data:

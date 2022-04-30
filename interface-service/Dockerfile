@@ -13,6 +13,6 @@ ENV VITE_HOST_DOMAIN=http://localhost
 COPY . /usr/src/client
 
 RUN yarn build
-EXPOSE 8080
+# EXPOSE 8080
 
 CMD ["yarn", "start"]
