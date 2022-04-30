@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::API
 
     # Authorize every request
-    before_action :authorize
+    before_action :authorized
 
     def authorized
-        render json: {message 'Please log in'}, status: :unauthorized unless user_logged_in
+        render json: {message: 'Please log in'}, status: :unauthorized unless user_logged_in
     end
 
     # checking the header in order for authorization

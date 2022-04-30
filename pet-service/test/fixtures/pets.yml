@@ -24,6 +24,7 @@ valid_pet:
   female_only: false
   inspection_required: false
   shelter_id: 1
+  imageUrl: dog1.jpg
 
 # testing purposes - invalid pet field (age should be int)
 invalid_pet:
@@ -37,6 +38,7 @@ invalid_pet:
   female_only: false
   inspection_required: false
   shelter_id: 1
+  imageUrl: dog2.jpg
 
 # two:
 #   name: MyString
