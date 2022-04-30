@@ -4,7 +4,6 @@ class PetsController < ApplicationController
   # GET /pets
   def index
     @pets = Pet.all
-
     render json: @pets
   end
 
@@ -26,16 +25,24 @@ class PetsController < ApplicationController
 
   # PATCH/PUT /pets/1
   def update
-    if @pet.update(pet_params)
-      render json: @pet
-    else
-      render json: @pet.errors, status: :unprocessable_entity
+    @pet = Pet.find(params[:id])
+    
+    if @pet.present?
+      if @pet.update(pet_params)
+        render json: @pet
+      else
+        render json: @pet.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /pets/1
   def destroy
-    @pet.destroy
+    @pet = Pet.find(params[:id])
+
+    if @pet.present?
+      @pet.destroy
+    end
   end
 
   private
