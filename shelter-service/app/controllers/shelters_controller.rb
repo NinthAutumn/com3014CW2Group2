@@ -1,10 +1,29 @@
 class SheltersController < ApplicationController
   # before_action :set_shelter, only: [:show, :update, :destroy]
+  before_action :authorized, except: [:health]
 
   # GET /shelters
   def index
     @shelters = Shelter.all
     render json: @shelters
+  end
+
+  def health
+    render true
+  end
+
+  def user_shelter
+      
+    shelter = ActiveRecord::Base.connection.execute("
+    select s.*
+    from user_shelters us
+    inner join shelters s on s.id = us.shelter_id
+    where us.user_id =  #{ActiveRecord::Base.sanitize_sql(@current_user_id.to_i)}
+    limit 1 
+    ")
+
+    render json: shelter
+
   end
 
   # GET /shelters/1

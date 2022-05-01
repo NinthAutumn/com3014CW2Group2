@@ -43,7 +43,7 @@ export async function getSession(req) {
 			return initSession;
 		}
 		initSession = {
-			user: data.user,
+			user: data,
 			authenticated: true,
 			isMobile,
 			token: context['token'].access_token

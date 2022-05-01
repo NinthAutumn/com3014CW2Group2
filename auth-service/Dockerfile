@@ -14,6 +14,5 @@ ENV EMAIL_SERVICE_URL=http://email:3000
 # ENV CLIENT_URL=
 # ENV SENDGRID_API_KEY=S
 RUN yarn build
-EXPOSE 3000
 
 CMD ["yarn", "start:prod"]

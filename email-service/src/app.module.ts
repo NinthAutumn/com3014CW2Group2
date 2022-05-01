@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { MorganInterceptor, MorganModule } from 'nest-morgan';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   controllers: [AppController],
   providers: [
+    JwtStrategy,
     AppService,
     {
       provide: APP_INTERCEPTOR,

@@ -36,7 +36,7 @@
 <div class="landing-page page">
 	<div class="landing-page__container container">
 		<div class="landing-page__pet-list">
-			<PetList {pets} match={true} />
+			<PetList bind:pets match={true} />
 		</div>
 	</div>
 </div>

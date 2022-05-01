@@ -26,6 +26,16 @@ export default class AuthStore {
 
 	logoutUser() {}
 
+	setShelter(shelter) {
+		this.state.update((val) => ({
+			...val,
+			user: {
+				...val.user,
+				shelter: shelter
+			}
+		}));
+	}
+
 	async loginUser(form) {
 		const data = await http(fetch)('/auth/login', 'POST', form);
 		if (data.error) {
@@ -47,11 +57,12 @@ export default class AuthStore {
 
 	async registerUser(form) {
 		const data = await http(fetch)('/auth/register', 'POST', form);
+		await this.setAuth(data);
 		if (data.error) {
 			return { error: data.error };
 		} else if (data.success) {
 			return { success: data.success };
 		}
-		// return this.setAuth(data);
+		return;
 	}
 }

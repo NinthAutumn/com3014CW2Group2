@@ -31,6 +31,6 @@
 	<label for="">Address</label>
 	<input class="input input--normal input--white" type="text" bind:value={form.address} />
 	<button style="width:100%;" class="button button--normal button--primary button--very-round"
-		>Create Shelter</button
+		>Become a Shelter</button
 	>
 </form>

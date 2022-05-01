@@ -3,13 +3,12 @@ default: &default
   encoding: unicode
   host: db
   username: postgres
-  password: password  # change from password when merge
+  password: postgres # change from password when merge
   pool: 5
 
 development:
   <<: *default
-  database: pet-service_development
-
+  database: tinder
 
 test:
   <<: *default

@@ -12,6 +12,4 @@ COPY . /usr/src/matching
 # ENV CLIENT_URL=
 # ENV SENDGRID_API_KEY=S
 RUN yarn build
-EXPOSE 3007
-
 CMD ["yarn", "start:prod"]

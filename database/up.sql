@@ -41,7 +41,7 @@ CREATE TABLE shelters (
   phone_number varchar,
   longtitude numeric,
   latitude numeric,
-  address_id int,
+  address varchar,
   created_at timestamptz,
   updated_at timestamptz
 );
@@ -65,6 +65,7 @@ CREATE TABLE  pets (
   name varchar,
   description text,
   age int,
+  image_url varchar,
   troubling_history bool,
   animal_type varchar,
   animal_category varchar,
@@ -104,7 +105,6 @@ ALTER TABLE user_shelters ADD FOREIGN KEY (shelter_id) REFERENCES shelters (id);
 
 ALTER TABLE user_shelters ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
-ALTER TABLE shelters ADD FOREIGN KEY (address_id) REFERENCES addresses (id);
 
 ALTER TABLE pets ADD FOREIGN KEY (shelter_id) REFERENCES pets (id);
 

@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectSlonik, Slonik, SlonikModule } from './slonik';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { sql } from 'slonik';
@@ -69,7 +73,7 @@ export class AppService {
   async loginHandler(loginDTO: LoginDTO) {
     const { credential, password } = loginDTO;
     const user = (await this.findUserByCredentials(credential)) as any;
-    if (!user) throw new NotFoundError('User not found');
+    if (!user) throw new NotFoundException('User not found');
     if (await this.verifyPassword(password, user.password)) {
       delete user.password;
       return user;

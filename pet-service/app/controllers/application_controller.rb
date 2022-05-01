@@ -6,6 +6,10 @@ class ApplicationController < ActionController::API
     def authorized
         render json: {message: 'Please log in'}, status: :unauthorized unless user_logged_in
     end
+    
+    def index
+        render true 
+    end
 
     # checking the header in order for authorization
     def get_auth_header

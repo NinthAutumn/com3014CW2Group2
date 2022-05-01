@@ -8,8 +8,7 @@ default: &default
 
 development:
   <<: *default
-  database: shelter-service_development
-
+  database: tinder
 
 test:
   <<: *default

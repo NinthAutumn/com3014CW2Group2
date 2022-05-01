@@ -9,11 +9,20 @@
 <nav class="header-nav page">
 	<div class="container">
 		<div class="header-nav__container">
+			<a href="/" class="header-nav__logo"> Home</a>
 			<div class="header-nav__actions">
 				<div class="header-nav__action">
 					<div class="header-nav__avatar">
-						{#if auth.authenticated}
-							<img src="/avatar.svg" height="20" width="20" alt="" />
+						{#if $auth.authenticated}
+							<img
+								on:click={() => {
+									goto('/user');
+								}}
+								src="/avatar.svg"
+								height="30"
+								width="30"
+								alt=""
+							/>
 						{:else}
 							<img
 								on:click={() => {
@@ -48,6 +57,18 @@
 			box-sizing: border-box;
 			padding: 0.5rem;
 			margin-top: -1rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		&__logo {
+			// height: 100%;
+			margin-left: 1rem;
+			cursor: pointer;
+			user-select: none;
+			// display: grid;
+			// place-content: center;
+			font-size: 2rem;
 		}
 		&__actions {
 			display: flex;
@@ -57,8 +78,8 @@
 			border-radius: 10rem;
 			overflow: hidden;
 			// box-shadow: var(--box-shadow);
-			padding: 1rem;
-			height: 4rem;
+			// padding: 1rem;
+			// height: 4rem;
 			box-sizing: border-box;
 		}
 	}

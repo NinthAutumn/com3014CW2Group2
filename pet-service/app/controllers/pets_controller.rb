@@ -1,11 +1,23 @@
 class PetsController < ApplicationController
   # before_action :set_pet, only: [:show, :update, :destroy]
+  before_action :authorized, except: [:health]
 
   # GET /pets
   def index
     @pets = Pet.all
     render json: @pets
   end
+
+  # GET /shelters
+  def index
+    @shelters = Shelter.all
+    render json: @shelters
+  end
+
+  def health
+    render true
+  end
+
 
   # GET /pets/1
   def show

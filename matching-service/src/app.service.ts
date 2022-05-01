@@ -36,11 +36,10 @@ export class AppService {
     //sql used to call user_id, pet_id from the match.
     //and then insert into user_pets with status = 'pending'
 
-    const petMatchID = await this.slonik.maybeOne(sql`
-    select from pets where pet_id = ${petId}`);
-    if ((await this.checkMatched(petMatchID)) == null) {
+    const matched = await this.checkMatched(petId)
+    if (!matched) {
       return this.slonik.maybeOne(sql`
-      insert into user_pets (userId, petId, status)
+      insert into user_pets (user_id, pet_id, status)
       values(${userId},${petId}, 'pending') returning *`);
     }
     //pending as alternative conditions will be manually completed by shelter
@@ -82,10 +81,9 @@ export class AppService {
       )
       select p.* 
       from pets p
-      inner join user_pets up on up.pet_id = p.id
-      where p.id not in (select * from matched_pets)
-      order by p.created_at desc
+      where not (p.id = any(select * from matched_pets))
       group by p.id
+      order by p.created_at desc
       limit ${limit}
       offset ${(page - 1) * limit}
     `);
@@ -94,7 +92,7 @@ export class AppService {
   async checkMatched(petId) {
     //checks the pet has not already been adopted
     return this.slonik.maybeOne(
-      sql`select * from user_pets where pet_id = ${petId} and status = 'adopted'`
+      sql`select * from user_pets where pet_id = ${petId} and status = 'adopted' limit 1`
     );
   }
 }

@@ -8,7 +8,7 @@
 		}
 		return {
 			props: {
-				user: ''
+				// user: ''
 			}
 		};
 	};
@@ -16,7 +16,18 @@
 
 <script>
 	import UserProfile from '$lib/components/User/UserProfile.svelte';
-	export let user = {};
+	import { http } from '$lib/http';
+	import { getContext, onMount } from 'svelte';
+	const auth = getContext('auth');
+	const state = auth?.state;
+	// console.log($state);
+	let user = $state.user;
+	onMount(async () => {
+		const shelter = await http(fetch)('/shelters/shelters/user');
+		if (shelter.length > 0) {
+			auth.setShelter(shelter[0]);
+		}
+	});
 </script>
 
 <div class="user-page page">

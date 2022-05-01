@@ -60,6 +60,7 @@ services:
     volumes:
       - postgresql-data:/var/lib/postgresql/data
       - ./database/up.sql:/docker-entrypoint-initdb.d/up.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/z_seed.sql
     environment:
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
@@ -78,9 +79,25 @@ services:
     volumes:
       - .:/shelter-service
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://shelter:3000"]
+      test: ["CMD", "curl", "-f", "http://shelter:3000/shelters/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  pet:
+    build:
+      context: ./pet-service
+      dockerfile: Dockerfile
+    # command: bundle exec bin/rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/pet-service
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://pet:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -104,8 +121,10 @@ services:
         condition: service_healthy
       interface:
         condition: service_healthy
-      # shelter:  
-      #   condition: service_healthy
+      shelter:  
+        condition: service_started
+      pet:  
+        condition: service_started
       match:
         condition: service_healthy
     restart: unless-stopped

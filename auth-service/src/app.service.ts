@@ -9,7 +9,7 @@ config();
 export class AppService {
   userService: AxiosInstance = null;
   emailService: AxiosInstance = null;
-  
+
   constructor(private readonly jwtService: JwtService) {
     this.userService = axios.create({
       baseURL: process.env.USER_SERVICE_URL,
@@ -23,14 +23,23 @@ export class AppService {
     const { credential, password } = loginDTO;
     // const user = await this.usersService.findUserByCredential(credential);
     // await this.usersService.verifyPassword(password, user.password)
+    try {
+      const { data: user } = await this.userService.post(
+        `/login`,
+        loginDTO,
+        {},
+      );
 
-    const { data: user } = await this.userService.post(`/login`, loginDTO, {});
-
-    if (user) {
-      // delete user.password;
-      return { token: await this.createJWTToken(user), user };
-    } else {
-      throw new ForbiddenException();
+      if (user) {
+        // delete user.password;
+        return { token: await this.createJWTToken({ user_id: user.id }), user };
+      } else {
+        throw new ForbiddenException();
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.error,
+      };
     }
   }
 
@@ -68,22 +77,32 @@ export class AppService {
       createUserDTO,
       {},
     );
-    if (user) {
-      await this.emailService.post(
-        `/send/auth/verify`,
-        {
-          email: user.email,
-          token: await this.createJWTToken({ user_id: user.id, verify: true }),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${await this.generateServiceToken('auth')}`,
+    try {
+      if (user)
+        await this.emailService.post(
+          `/send/auth/verify`,
+          {
+            email: user.email,
+            token: await this.createJWTToken({
+              user_id: user.id,
+              verify: true,
+            }),
           },
-        },
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${await this.generateServiceToken(
+                'auth',
+              )}`,
+            },
+          },
+        );
+    } catch (error) {
+      // console.log(error);
+    }
+    if (user) {
       return { token: await this.createJWTToken({ user_id: user.id }), user };
     } else {
-      throw new ForbiddenException();
+      return { error: 'Failed to create User' };
     }
   }
 
