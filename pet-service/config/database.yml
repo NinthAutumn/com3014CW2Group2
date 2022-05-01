@@ -3,7 +3,7 @@ default: &default
   encoding: unicode
   host: db
   username: postgres
-  password: password  # change from password when merge
+  password: postgres  # changed from password to postgres
   pool: 5
 
 development:
