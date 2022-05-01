@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
-import { createTypeParserPreset } from 'slonik';
-import { SlonikModule } from './slonik';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { MorganInterceptor, MorganModule } from 'nest-morgan';
+import { Module } from "@nestjs/common";
+import { createTypeParserPreset } from "slonik";
+import { SlonikModule } from "./slonik";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { MorganInterceptor, MorganModule } from "nest-morgan";
+import { JwtModule } from "@nestjs/jwt";
+import { JwtStrategy } from "./jwt.strategy";
 @Module({
   imports: [
     MorganModule,
@@ -15,13 +17,21 @@ import { MorganInterceptor, MorganModule } from 'nest-morgan';
         typeParsers: [...createTypeParserPreset()],
       },
     }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: 86400,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [
+    JwtStrategy,
+
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: MorganInterceptor('dev'),
+      useClass: MorganInterceptor("dev"),
     },
   ],
 })
