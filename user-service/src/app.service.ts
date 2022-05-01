@@ -14,10 +14,10 @@ export class AppService {
   async createUser(createUserDTO: CreateUserDTO) {
     const { username, email, password } = createUserDTO;
     const user = await this.slonik.maybeOne(sql`
-        insert into users(username,email,password)
+        insert into users(username,email,password,created_at,updated_at)
         values(${username},${email},${await this.encryptPassword(
       password,
-    )}) returning * 
+    )},now(),now()) returning * 
       `);
     delete user.password;
     return user;
@@ -43,6 +43,7 @@ export class AppService {
       select u.*
       from users u
       where u.id = ${user_id} 
+      group by u.id
     `);
     delete user.password;
     return user;
@@ -50,7 +51,10 @@ export class AppService {
 
   async findUserByCredentials(credential: string) {
     return this.slonik.maybeOne(
-      sql`select u.* from users u where u.email ilike ${credential} or u.username ilike ${credential}`,
+      sql`
+      select u.*
+      from users u
+      where u.email ilike ${credential} or u.username ilike ${credential}`,
     );
   }
 

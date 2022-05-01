@@ -4,9 +4,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MorganInterceptor, MorganModule } from 'nest-morgan';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [MorganModule],
+  imports: [
+    MorganModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: 86400,
+      },
+    }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
