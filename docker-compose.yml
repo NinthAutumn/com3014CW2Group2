@@ -84,6 +84,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  pet:
+    build:
+      context: ./pet-service
+      dockerfile: Dockerfile
+    # command: bundle exec bin/rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/pet-service
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://pet:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   nginx-proxy:
     container_name: nginx-proxy
     build:
@@ -105,6 +119,8 @@ services:
       interface:
         condition: service_healthy
       # shelter:  
+      #   condition: service_healthy
+      # pet:
       #   condition: service_healthy
       match:
         condition: service_healthy
