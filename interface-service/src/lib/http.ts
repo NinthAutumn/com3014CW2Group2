@@ -1,6 +1,7 @@
 import { getContext } from 'svelte/internal';
 // import {getConte}
 import Cookie from 'js-cookie';
+import { browser, dev } from '$app/env';
 
 // let clientClient, serverClient;
 // let instance = axios.create({
@@ -30,18 +31,26 @@ function fetchHandler(f, access_token?) {
 	} else if (Cookie.get('access_token')) {
 		headers['authorization'] = `Bearer ${Cookie.get('access_token')}`;
 	}
+
 	return async function (route, method?, data?) {
 		return (
-			await f(`/api${route}`, {
-				method: method || 'GET',
-				...(() => {
-					if (data) {
-						return { body: JSON.stringify(data) };
-					}
-					return {};
-				})(),
-				headers: { ...headers }
-			})
+			await f(
+				dev
+					? `http://localhost/api${route}`
+					: browser
+					? `/api${route}`
+					: `http://nginx-proxy:80/api${route}`,
+				{
+					method: method || 'GET',
+					...(() => {
+						if (data) {
+							return { body: JSON.stringify(data) };
+						}
+						return {};
+					})(),
+					headers: { ...headers }
+				}
+			)
 		)?.json();
 	};
 }

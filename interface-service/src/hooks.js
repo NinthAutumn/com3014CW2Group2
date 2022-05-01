@@ -5,8 +5,7 @@ import fetch from 'node-fetch';
 
 export async function handle({ event, resolve }) {
 	event.locals.token = {
-		access_token: cookie.parse(event.request.headers.get('cookie') ?? '')['access_token'],
-		refresh_token: cookie.parse(event.request.headers.get('cookie') ?? '')['refresh_token']
+		access_token: cookie.parse(event.request.headers.get('cookie') ?? '')['access_token']
 	};
 
 	const response = await resolve(event);
@@ -33,24 +32,21 @@ export async function getSession(req) {
 		authenticated: false,
 		token: context.token
 	};
-	if (context['token'].refresh_token) {
+	if (context['token'].access_token) {
 		// http.defaults.headers.common[
 		//   "authorization"
 		// ] = `Bearer ${context.access_token}`;
 
-		Cookie.remove('access_token');
-		const data = await http(fetch)('/auth/refreshToken', 'PATCH', {
-			refresh_token: context['token'].refresh_token
-		});
+		const data = await http(fetch, context['token'].access_token)('/users/self');
 		if (data.statusCode) {
-			Cookie.remove('refresh_token');
+			Cookie.remove('access_token');
 			return initSession;
 		}
 		initSession = {
 			user: data.user,
 			authenticated: true,
 			isMobile,
-			token: data.token
+			token: context['token'].access_token
 		};
 	}
 

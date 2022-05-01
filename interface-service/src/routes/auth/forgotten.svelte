@@ -35,7 +35,7 @@
 		success = '';
 	export let verified = '';
 
-	const auth = getContext('store');
+	const auth = getContext('auth');
 	async function resetHandler(e) {
 		e.preventDefault();
 		if (reset_form.password != reset_form.confirm_password) {

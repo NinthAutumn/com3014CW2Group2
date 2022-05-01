@@ -42,7 +42,7 @@
 	};
 	let error = '';
 	export let verified = '';
-	const auth = getContext('store');
+	const auth = getContext('auth');
 	async function submitHandler(e) {
 		e.preventDefault();
 
@@ -59,7 +59,6 @@
 	<div class="login-page__container container">
 		<form on:submit={submitHandler} class="login-page__card">
 			<h1>Login</h1>
-
 			<label for="username">Username・Email</label>
 			<input
 				placeholder="Username・Email"

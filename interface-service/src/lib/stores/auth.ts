@@ -4,18 +4,24 @@ import Cookie from 'js-cookie';
 import { browser } from '$app/env';
 
 export default class AuthStore {
-	state = {
+	state = writable({
 		authenticated: false,
 		user: {},
 		token: {},
 		isMobile: false
-	} as any;
+	}) as any;
+
+	user = {};
 	constructor(state) {
 		if (state.authenticated) {
 			// Cookie.set("access_token", state.token);
 			// axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
 		}
 		this.state = state;
+
+		this.state.subscribe((val) => {
+			this.user = val;
+		});
 	}
 
 	logoutUser() {}
