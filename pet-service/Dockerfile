@@ -4,11 +4,9 @@ RUN mkdir -p /usr/src/app/pet
 WORKDIR /usr/src/app/pet
 COPY Gemfile /usr/src/app/pet/Gemfile
 COPY Gemfile.lock /usr/src/app/pet/Gemfile.lock
-
 COPY . /usr/src/app/pet/
 RUN gem install bundler:2.2.15
 RUN bundle install
-
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
