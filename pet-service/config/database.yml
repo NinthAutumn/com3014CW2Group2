@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: postgres
+  password: password  # change from password when merge
+  pool: 5
+
+development:
+  <<: *default
+  database: pet-service_development
+
+
+test:
+  <<: *default
+  database: pet-service_test

@@ -26,5 +26,5 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# Igonoring the application.yml that has private values
+# Ignore the application.yml that has private values
 /config/application.yml

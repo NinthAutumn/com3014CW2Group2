@@ -1,0 +1,53 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   name: MyString
+#   description: MyText
+#   age: 1
+#   troubling_history: false
+#   animal_type: MyString
+#   animal_category: MyString
+#   male_only: false
+#   female_only: false
+#   inspection_required: false
+#   shelter_id: 1
+
+# testing purposes - valid pet fields
+valid_pet:
+  name: Jimmy
+  description: This is pet 1
+  age: 3
+  troubling_history: false
+  animal_type: Dog
+  #animal_category: MyString
+  male_only: false
+  female_only: false
+  inspection_required: false
+  shelter_id: 1
+  imageUrl: dog1.jpg
+
+# testing purposes - invalid pet field (age should be int)
+invalid_pet:
+  name: bob
+  description: This is pet 2
+  age: old
+  troubling_history: false
+  animal_type: Dog
+  #animal_category: MyString
+  male_only: false
+  female_only: false
+  inspection_required: false
+  shelter_id: 1
+  imageUrl: dog2.jpg
+
+# two:
+#   name: MyString
+#   description: MyText
+#   age: 1
+#   troubling_history: false
+#   animal_type: MyString
+#   animal_category: MyString
+#   male_only: false
+#   female_only: false
+#   inspection_required: false
+#   shelter_id: 1
