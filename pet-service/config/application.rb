@@ -38,6 +38,12 @@ module PetService
     config.api_only = true
     config.hosts.clear
     # load application.yml
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options,:patch,:put]
+      end
+    end
     config.before_configuration do 
       env_file = File.join(Rails.root, 'config', 'application.yml')
       YAML.load(File.open(env_file)).each do |key, value|

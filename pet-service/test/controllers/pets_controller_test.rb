@@ -39,7 +39,7 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
                                       female_only: @pet.female_only,
                                       inspection_required: @pet.inspection_required,
                                       shelter_id: @pet.shelter_id,
-                                      imageUrl: @pet.imageUrl } }, as: :json,
+                                      image_url: @pet.image_url } }, as: :json,
                                       headers: { "Authorization": valid_token }
     end
     assert_response 201
@@ -63,7 +63,7 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
                                           female_only: @pet.female_only,
                                           inspection_required: @pet.inspection_required,
                                           shelter_id: @pet.shelter_id,
-                                          imageUrl: @pet.imageUrl } }, as: :json,
+                                          image_url: @pet.image_url } }, as: :json,
                                           headers: { "Authorization": valid_token }
     assert_response 200
   end

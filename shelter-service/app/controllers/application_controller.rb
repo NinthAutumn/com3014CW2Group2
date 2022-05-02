@@ -15,7 +15,6 @@ class ApplicationController < ActionController::API
     # Decoded token method if the method is called without a token as parameter
     def get_decoded_token
         headers = get_auth_header
-        print(ENV['JWT_SECRET'])
         if headers.present?
             # Authorization would be in the form {Bearer asd.21x.aq24}
             # So spliting it and saving the second value as the token

@@ -1,18 +1,28 @@
 <script>
 	import { http } from '$lib/http';
+	import { createEventDispatcher } from 'svelte';
 
 	let form = {
 		name: '',
 		description: '',
-		age: 0
+		age: 0,
+		image_url: ''
 	};
+	const dispatch = createEventDispatcher();
 
 	async function submitHandler(e) {
 		e.preventDefault();
 		await http(fetch)('/pets/pets/', 'POST', {
 			...form
 		});
-		createEventDispatcher()('created');
+
+		form = {
+			name: '',
+			description: '',
+			age: 0,
+			image_url: ''
+		};
+		dispatch('created');
 	}
 </script>
 
@@ -20,7 +30,9 @@
 	<label for="">Name</label>
 	<input class="input input--normal input--white" type="text" bind:value={form.name} />
 	<label for="">Description</label>
-	<input class="input input--normal input--white" type="text" bind:value={form.description} />
+	<textarea class="input input--textarea input--white" type="text" bind:value={form.description} />
+	<label for="">Image URL</label>
+	<input class="input input--normal input--white" type="text" bind:value={form.image_url} />
 	<label for="">Age</label>
 	<input type="number" class="input input--normal input--white" bind:value={form.age} />
 	<button style="width:100%;" class="button button--normal button--primary button--very-round"

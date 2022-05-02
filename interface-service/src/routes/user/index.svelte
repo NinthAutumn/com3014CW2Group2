@@ -25,6 +25,7 @@
 	onMount(async () => {
 		const shelter = await http(fetch)('/shelters/shelters/user');
 		if (shelter.length > 0) {
+			console.log(shelter);
 			auth.setShelter(shelter[0]);
 		}
 	});

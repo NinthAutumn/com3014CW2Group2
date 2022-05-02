@@ -47,11 +47,12 @@ export class AppService {
 
   async getMatchedPets(user_id: number) {
     return this.slonik.any(sql`
-      select p.*
+      select p.*, JSON_AGG(up.*)->0 as match
       from users u
       inner join user_pets up on up.user_id = u.id
       inner join pets p on p.id = up.pet_id
       where u.id = ${user_id}
+      group by p.id
     `);
   }
 

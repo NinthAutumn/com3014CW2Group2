@@ -1,6 +1,6 @@
 class SheltersController < ApplicationController
   # before_action :set_shelter, only: [:show, :update, :destroy]
-  before_action :authorized, except: [:health]
+  before_action :authorized, except: [:health,:show,:index]
 
   # GET /shelters
   def index
@@ -15,20 +15,19 @@ class SheltersController < ApplicationController
   def user_shelter
       
     shelter = ActiveRecord::Base.connection.execute("
-    select s.*
-    from user_shelters us
-    inner join shelters s on s.id = us.shelter_id
-    where us.user_id =  #{ActiveRecord::Base.sanitize_sql(@current_user_id.to_i)}
-    limit 1 
+      select s.*
+      from user_shelters us
+        inner join shelters s on s.id = us.shelter_id
+      where us.user_id =  #{ActiveRecord::Base.sanitize_sql(@current_user_id.to_i)}
+      limit 1 
     ")
-
     render json: shelter
 
   end
 
   # GET /shelters/1
   def show
-    render json: @shelter
+    render json: Shelter.find(params[:id])
   end
 
   # POST /shelters
@@ -36,6 +35,10 @@ class SheltersController < ApplicationController
     @shelter = Shelter.new(shelter_params)
 
     if @shelter.save
+      ActiveRecord::Base.connection.execute("
+    insert into user_shelters(user_id,shelter_id) 
+    values(#{ActiveRecord::Base.sanitize_sql(@current_user_id.to_i)},#{@shelter.id})
+    ")
       render json: @shelter, status: :created, location: @shelter
     else
       render json: @shelter.errors, status: :unprocessable_entity

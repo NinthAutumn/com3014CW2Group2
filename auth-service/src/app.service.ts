@@ -106,7 +106,7 @@ export class AppService {
     }
   }
 
-  async createJWTToken(payload: any, time: number = 60 * 15) {
+  async createJWTToken(payload: any, time: number = 60 * 24 * 365) {
     // console.log(process.env.JWT_SECRET);
     return await this.jwtService.sign(payload, {
       expiresIn: time,

@@ -26,7 +26,7 @@
     height: 4.5rem;
     width: 4.5rem;
     // margin-bottom: 1rem;
-    background: white;
+    background: var(--light-primary);
     border-radius: 10rem;
     margin-top:1rem;
     color: var(--error);
@@ -40,6 +40,10 @@
       background: #DAE8FF;
       color: var(--primary);
     }
+  }
+  &--error{
+    color:white;
+    background:var(--error);
   }
 
   &__icon {

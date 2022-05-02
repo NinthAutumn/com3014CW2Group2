@@ -19,7 +19,7 @@ class PetTest < ActiveSupport::TestCase
     assert pet.errors[:female_only].any?
     assert pet.errors[:inspection_required].any?
     assert pet.errors[:shelter_id].any?
-    assert pet.errors[:imageUrl].any?
+    assert pet.errors[:image_url].any?
   end
 
   test "Pet should be valid" do

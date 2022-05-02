@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2022_04_30_184952) do
     t.integer "shelter_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "imageUrl"
+    t.string "image_url"
   end
 
 end
