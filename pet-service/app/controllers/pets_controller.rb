@@ -92,11 +92,29 @@ class PetsController < ApplicationController
 
   # DELETE /pets/1
   def destroy
-    @pet = Pet.find(params[:id])
 
-    if @pet.present?
-      @pet.destroy
+    response = @shelter_service.get("/shelters/user",{},{'Authorization'=>"Bearer #{@token}"})
+    
+    if response.status == 200 
+        res = JSON.parse response.body
+        @shelter = res[0]
+        @pet = Pet.find(params[:id])
+        if @pet.present?
+          if @shelter && @shelter["id"].to_i == @pet.shelter_id
+            ActiveRecord::Base.connection.execute("delete from user_pets where pet_id = #{ActiveRecord::Base.sanitize_sql(params[:id].to_i)}")
+            @pet.destroy
+            render json: {message: 'Successful'}
+            return
+          else
+            render json: {message: 'Not A Shelter'}, status: :unauthorized
+            return
+          end
+        end
+    else
+      render json: {message: 'Failed'}
+      return
     end
+    
   end
 
   private

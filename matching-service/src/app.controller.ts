@@ -38,6 +38,14 @@ export class AppController {
     return this.appService.getMatchedPets(req.user.user_id);
   }
 
+  @Get("/pets/:pet_id/users")
+  @UseGuards(AuthGuard("jwt"))
+  async getPetMatches(@Req() req: any,@Param('pet_id') pet_id: string ) {
+    return this.appService.getPetUserMatched(req.user.user_id,Number(pet_id),req);
+  }
+
+  
+
   @Get("/pets/not-matched")
   @UseGuards(AuthGuard("jwt"))
   async getUnmatchedPets(
@@ -48,11 +56,22 @@ export class AppController {
     return this.appService.getPetsForMatching(getNotMatchedDTO);
   }
 
+  @Get('/pets/:pet_id/status')
+  @UseGuards(AuthGuard("jwt"))
+  async getPetMatchStatus(
+    @Req() req: any,
+    @Param('pet_id') pet_id: string
+  ) {
+    return this.appService.getPetMatchStatus(Number(pet_id),req.user.user_id);
+  }
+
+
+
   @Patch("/accept")
   @UseGuards(AuthGuard("jwt"))
   async accepttMatch(@Req() req: any, @Body() acceptMatchDTO: AcceptMatchDTO) {
     acceptMatchDTO.shelter_user_id = req.user.user_id;
-    return this.appService.acceptMatch(acceptMatchDTO);
+    return this.appService.acceptMatch(acceptMatchDTO,req);
   }
 
   //write routes here

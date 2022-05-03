@@ -59,7 +59,20 @@ class SheltersController < ApplicationController
 
   # DELETE /shelters/1
   def destroy
+
+
     @shelter = Shelter.find(params[:id])
+    
+    shelter_user = ActiveRecord::Base.connection.execute("
+      select s.*
+      from user_shelters us
+        inner join shelters s on s.id = us.shelter_id and s.id =  #{ActiveRecord::Base.sanitize_sql(params[:id].to_i)}
+      where us.user_id =  #{ActiveRecord::Base.sanitize_sql(@current_user_id.to_i)}
+      limit 1 
+    ")
+    if shelter_user.length < 1
+      render json: {message:"not shelter owner"}, status: :unauthorized
+    end
     if @shelter.present?
       @shelter.destroy
     end

@@ -11,6 +11,7 @@ COPY . /usr/src/user
 # ENV PG_CONNECTION_STRING=
 # ENV CLIENT_URL=
 # ENV SENDGRID_API_KEY=S
+ENV SITE_URL='http://localhost'
 RUN yarn build
 
 CMD ["yarn", "start:prod"]

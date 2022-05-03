@@ -54,6 +54,10 @@
     background: var(--secondary);
     color: white;
   }
+  &--success{
+    background:var(--success);
+    color:white;
+  }
 
   &--stripe {
     background: #5469d4;

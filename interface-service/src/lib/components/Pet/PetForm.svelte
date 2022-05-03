@@ -28,13 +28,24 @@
 
 <form on:submit={submitHandler} class="pet-form">
 	<label for="">Name</label>
-	<input class="input input--normal input--white" type="text" bind:value={form.name} />
+	<input required class="input input--normal input--white" type="text" bind:value={form.name} />
 	<label for="">Description</label>
-	<textarea class="input input--textarea input--white" type="text" bind:value={form.description} />
+	<textarea
+		required
+		maxlength="500"
+		class="input input--textarea input--white"
+		type="text"
+		bind:value={form.description}
+	/>
 	<label for="">Image URL</label>
-	<input class="input input--normal input--white" type="text" bind:value={form.image_url} />
+	<input
+		required
+		class="input input--normal input--white"
+		type="text"
+		bind:value={form.image_url}
+	/>
 	<label for="">Age</label>
-	<input type="number" class="input input--normal input--white" bind:value={form.age} />
+	<input required type="number" class="input input--normal input--white" bind:value={form.age} />
 	<button style="width:100%;" class="button button--normal button--primary button--very-round"
 		>Create Pet</button
 	>

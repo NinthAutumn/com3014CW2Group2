@@ -15,7 +15,7 @@
 
 <div class="pet-list">
 	{#each pets as pet (pet.id)}
-		<div class="pet-list__item">
+		<div class="pet-list__item" on:click={() => goto(`/pet/${pet.id}`)}>
 			<div class="pet-list__avatar">
 				<img
 					style="max-width:100%;width:100%;"

@@ -8,8 +8,9 @@ COPY yarn.lock /usr/src/matching/
 RUN yarn
 
 COPY . /usr/src/matching
-# ENV PG_CONNECTION_STRING=
-# ENV CLIENT_URL=
-# ENV SENDGRID_API_KEY=S
+
+ENV PET_SERVICE_URL=http://pet:3000
+ENV SHELTER_SERVICE_URL=http://shelter:3000
+ENV USER_SERVICE_URL=http://user:3000
 RUN yarn build
 CMD ["yarn", "start:prod"]

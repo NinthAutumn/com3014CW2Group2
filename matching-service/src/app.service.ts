@@ -36,13 +36,23 @@ export class AppService {
     //sql used to call user_id, pet_id from the match.
     //and then insert into user_pets with status = 'pending'
 
-    const matched = await this.checkMatched(petId)
+    const matched = await this.checkMatched(petId,userId)
     if (!matched) {
       return this.slonik.maybeOne(sql`
-      insert into user_pets (user_id, pet_id, status)
-      values(${userId},${petId}, 'pending') returning *`);
+      insert into user_pets (user_id, pet_id, status,created_at,updated_at)
+      values(${userId},${petId}, 'pending',now(),now()) returning *`);
     }
     //pending as alternative conditions will be manually completed by shelter
+  }
+
+
+  async getPetMatchStatus(pet_id:number,user_id:number){
+    return this.slonik.maybeOne(sql`
+        select up.*
+        from user_pets up
+        where up.pet_id = ${pet_id} and up.user_id = ${user_id}
+        limit 1
+      `)
   }
 
   async getMatchedPets(user_id: number) {
@@ -56,20 +66,43 @@ export class AppService {
     `);
   }
 
-  async acceptMatch(acceptMatchDTO: AcceptMatchDTO) {
-    const { shelter_user_id, user_id, pet_id, status } = acceptMatchDTO;
+  async getPetUserMatched(user_id: number,pet_id:number,req) {
     const { data: shelter } = await this.shelterService.get(
-      `/shelters/${shelter_user_id}/user`
+      `/shelters/user`,{headers:{
+        AUthorization: req.headers['authorization']
+      }}
     );
     const { data: pet } = await this.petService.get(`/pets/${pet_id}`);
-    if (shelter.id !== pet.shelter_id) {
+    if (shelter[0].id !== pet.shelter_id) {
+      throw new UnauthorizedException("Not Shelter");
+    }
+
+    return this.slonik.any(sql`
+      select u.*,JSON_AGG(up.*)->0 as match
+      from users u
+      inner join user_pets up on up.user_id = u.id and up.pet_id = ${pet_id}
+      group by u.id,up.id
+      order by up.created_at desc
+    `);
+  }
+
+  async acceptMatch(acceptMatchDTO: AcceptMatchDTO,req:any) {
+    const { shelter_user_id, user_id, pet_id, status } = acceptMatchDTO;
+    const { data: shelter } = await this.shelterService.get(
+      `/shelters/user`,{headers:{
+        AUthorization: req.headers['authorization']
+      }}
+    );
+    const { data: pet } = await this.petService.get(`/pets/${pet_id}`);
+    if (shelter[0].id !== pet.shelter_id) {
       throw new UnauthorizedException();
     }
     await this.slonik.query(sql`
       update user_pets   
-        set status = ${status}
+        set status = ${status},updated_at=now()
       where user_id = ${user_id} and pet_id = ${pet_id}
     `);
+    return {}
   }
 
   async getPetsForMatching(getNotMatchedDTO: GetNotMatchedDTO) {
@@ -90,10 +123,10 @@ export class AppService {
     `);
   }
 
-  async checkMatched(petId) {
+  async checkMatched(petId,user_id) {
     //checks the pet has not already been adopted
     return this.slonik.maybeOne(
-      sql`select * from user_pets where pet_id = ${petId} and status = 'adopted' limit 1`
+      sql`select * from user_pets where pet_id = ${petId} and (status = 'adopted' or user_id = ${user_id}) limit 1`
     );
   }
 }
